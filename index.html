@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    <link href="lib/editor/codemirror.css" rel="stylesheet">
+    <script src="lib/editor/codemirror.js"></script>
+    <script src="lib/editor/mode/javascript/javascript.js"></script>
+    <script src="app/index.js"></script>
+
+    <style>
+        .CodeMirror {
+            height: 100% !important;
+        }
+        body {
+            margin: 0;
+            height: 100% !important;
+            padding: 0;
+            overflow: auto;
+        }
+        html {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+<body>
+
+    <iframe id="iframe_0" src="about:blank" width="0" height="0" border="0" tabindex="-1" title="" style="display:none"></iframe>
+    <iframe id="iframe_1" src="about:blank" width="0" height="0" border="0" tabindex="-1" title="" style="display:none"></iframe>
+
+    <script>
+
+        var nextFrame = 0,
+            currentFrame = 0,
+            eval_delay = 1000,
+            timeout = 0,
+            plugins = [],
+            library = [],
+            iframe_0 = document.getElementById('iframe_0'),
+            iframe_1 = document.getElementById('iframe_1'),
+            iframeArr = [iframe_0,iframe_1];
+
+        //insert all the theme CSS
+        insertCSS();
+        //load the the plugins and cache them
+        plugins=loadPlugins();
+        //load the library js
+        library=loadLibrary();
+
+        var crackedEditor = CodeMirror(document.body, {
+            mode:  "javascript",
+            autofocus:true,
+            theme:"rubyblue"
+        });
+
+        window.onfocus = function() {
+            crackedEditor.focus();
+        };
+
+        crackedEditor.on("changes",function(){
+            clearTimeout(timeout);
+            timeout = setTimeout(evalEditor,eval_delay);
+        });
+
+        function evalEditor() {
+            try {
+                currentFrame = nextFrame;
+                nextFrame = !nextFrame ? 1 : 0;
+                setTimeout(function(){
+                    //reload the currently running iframe
+                    iframeArr[currentFrame].src ="about:blank";
+                    iframeArr[nextFrame].contentWindow.eval(library.join(" ; ")+" ; "+plugins.join(" ; ")+" ; "+crackedEditor.getDoc().getValue());
+                },0);
+            } catch(e) {
+                //console.log(e);
+            }
+
+            if(!crackedEditor.getDoc().isClean()) {
+                document.title=(document.title.match(/ \[Edited\]/)) ? document.title :  document.title + " [Edited]";
+            } else {
+                document.title=(document.title.match(/ \[Edited\]/)) ? document.title.replace(/ \[Edited\]/,"") :  document.title;
+            }
+        }
+
+    </script>
+</body>
+</html>
