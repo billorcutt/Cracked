@@ -1,6 +1,6 @@
 # README #
 
-Mac app version of ["I Dropped My Phone The Screen Cracked"](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked)
+App version of ["I Dropped My Phone The Screen Cracked"](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked)
 
 Download the [app](https://github.com/billorcutt/Cracked/releases/download/0.1.0/Cracked.dmg) for Mac OS.
 
