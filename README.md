@@ -4,7 +4,7 @@ App version of ["I Dropped My Phone The Screen Cracked"](https://github.com/bill
 
 Download the [app](https://github.com/billorcutt/Cracked/releases/download/0.1.0/Cracked.dmg) for Mac OS.
 
-or build it yourself:
+Or build it yourself:
 
 ```bash
 npm install
