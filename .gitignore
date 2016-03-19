@@ -1,0 +1,10 @@
+#IDE
+.idea/
+
+#app
+Cracked-darwin-x64/
+
+#app dmg
+Installers/
+
+node_modules/
