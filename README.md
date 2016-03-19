@@ -6,16 +6,15 @@ Download the [app](https://github.com/billorcutt/Cracked/releases/download/0.1.0
 
 or build it yourself:
 
+```bash
 npm install
 
-to run---
-
+# to run---
 ./node_modules/.bin/electron . 
 
-to package--
-
+# to package--
 electron-packager . Cracked --platform=darwin --arch=x64 --version=0.35.6 --icon=<path-to>/cracked.icns
 
-build installer--
-
+# build installer--
 electron-installer-dmg --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/
+```
