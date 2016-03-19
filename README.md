@@ -1,6 +1,6 @@
 # README #
 
-App version of the "I Dropped My Phone The Screen Cracked" with bundled editor.
+App version of "I Dropped My Phone The Screen Cracked"
 
 npm install
 
