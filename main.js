@@ -288,4 +288,10 @@ app.on('ready', function() {
         mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
     }
 
+    var flipShutdownFlag = function() {
+        if(shuttingDown) {
+            shuttingDown = false;
+        }
+    }
+
 });

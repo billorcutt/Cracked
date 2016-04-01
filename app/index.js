@@ -3,6 +3,7 @@
 
 var fs = require('fs');
 var electron = require('electron');
+var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
 var app = electron.remote.app;
 var dialog = electron.remote.dialog;
 var crackedFile = null;
@@ -29,6 +30,7 @@ currentWindow.on('close', function(e) {
              //cancel-do nothing
             } else if(result===1) {
             //don't save
+                flipShutdownFlag();
             } else {
                 currentWindow.destroy();
             }
