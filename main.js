@@ -32,6 +32,12 @@ app.on('before-quit',function(e){
     closeWindows();
 });
 
+global.flipShutdownFlag = function () {
+    if(shuttingDown) {
+        shuttingDown = false;
+    }
+};
+
 function closeWindows() {
     if(BrowserWindow.getAllWindows().length) {
         if(BrowserWindow.getAllWindows()[0]) {
@@ -286,12 +292,6 @@ app.on('ready', function() {
             title = title + " [Muted]";
         }
         mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
-    }
-
-    var flipShutdownFlag = function() {
-        if(shuttingDown) {
-            shuttingDown = false;
-        }
     }
 
 });
