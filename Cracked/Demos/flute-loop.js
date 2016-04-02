@@ -1,5 +1,5 @@
-__().sine({id:"sin1"}).lowpass({id:"lp1"}).panner(1).compressor({release:0.05}).dac(0.25);
-__().sine({id:"sin2"}).lowpass({id:"lp2"}).panner(-1).compressor({release:0.05}).dac(0.25);
+__().sine({id:"sin1"}).lowpass({id:"lp1"}).panner(1).compressor({release:0.05}).dac(0.5);
+__().sine({id:"sin2"}).lowpass({id:"lp2"}).panner(-1).compressor({release:0.05}).dac(0.5);
 
 var time = 200,
     freq = 0,
