@@ -1,8 +1,14 @@
 {
   "name": "cracked",
   "productName": "Cracked",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "main.js",
+  "description":"Web audio, cracked.",
+  "keywords":"Web audio, synthesis, sound, music",
+  "homepage":"https://github.com/billorcutt/Cracked",
+  "bugs":"https://github.com/billorcutt/Cracked/issues",
+  "license":"MIT",
+  "author":"Bill Orcutt <cracked@fastinversesquare.com> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
     "wrench": "^1.5.8"
