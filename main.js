@@ -121,6 +121,12 @@ app.on('ready', function() {
                 submenu:getDemos()
             },
             {
+                label:'API Docs',
+                click:function(){
+                    shell.openExternal('http://billorcutt.github.io/i_dropped_my_phone_the_screen_cracked/docs/');
+                }
+            },
+            {
                 label:'Website',
                 click:function(){
                     shell.openExternal('https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked');
