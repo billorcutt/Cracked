@@ -8,7 +8,7 @@
  * @param {Number} [userParams.end=1]
  * @param {String} [userParams.path=''] path to sound file to play
  * @param {Boolean} [userParams.loop=false]
-*/
+ */
 
 //same as above but with specified loop points
 
@@ -16,13 +16,16 @@ __().
     sampler({
         path:"../../Sounds/various/gun-cock.wav",
         loop:"true",
-        speed:.25,
-        start:.15,
-        end:0.40
+        speed:0.25,
+        start:0.35,
+        end:0.4
     }).
     dac();
 
-__("sampler").start();
+//let the sample load
+setTimeout(function(){
+    __("sampler").start();
+},500);
 
 
 //setting the sampler speed
