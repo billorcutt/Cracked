@@ -11,10 +11,10 @@
 //ring modulator - default settings - frequency : 30, distortion : 1
 __().
     sampler({
-  		path:"./data/various/gun-cock.wav",
+        path:"../../Sounds/various/gun-cock.wav",
   		loop:true
 	}).
     ring({frequency:2000,distortion:50}).
-    dac(0.025);
+    dac(0.25);
 
 __("sampler").start();

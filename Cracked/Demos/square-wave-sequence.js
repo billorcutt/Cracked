@@ -2,7 +2,7 @@
 __.loop(100);
 
 //set up the sounds = square->adsr->ring->compressor->dac
-__().square(90).adsr().lowpass({q:30}).ring().compressor({release:0.1}).dac().play();
+__().square(90).adsr().lowpass({q:30}).ring().compressor({release:0.1}).dac(0.5).play();
 
 //bind adsr & lowpass to the "step" event
 __("adsr,lowpass").bind("step",function() {

@@ -1,5 +1,5 @@
 //slow clicking square wave- gain to distort
-__().square(1/2).gain(2).lowpass({frequency:200,q:40}).dac();
+__().square(1/2).gain(1/5).lowpass({frequency:200,q:40}).dac();
 
 //parallel delay
 __("lowpass").delay({delay:0,feedback:1}).connect("dac");

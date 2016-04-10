@@ -2,7 +2,7 @@
 var r = __.random;
 
 //set up basic sound one. wrap in a macro to namespace it
-__().begin("m1").monosynth().overdrive().panner().end("m1").dac();
+__().begin("m1").monosynth().overdrive().panner().end("m1").dac(0.75);
 
 //call a function at a random interval
 __.random_interval(function(time){

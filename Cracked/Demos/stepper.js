@@ -1,8 +1,8 @@
-__().dac(0.75);
+__().dac();
 
 __().stepper({steps:16,length:2,modulates:"detune"}).sine(120).gain(0.25).connect("dac");
 
-__().square(1/4).lowpass({frequency:80,q:30}).connect("dac");
+__().square(1/4).lowpass({frequency:80,q:30}).gain(0.5).connect("dac");
 
 __().square(1/2).delay(0.5).connect("dac");
 

@@ -1,4 +1,4 @@
-__().square(16).lowpass({frequency:100,q:30}).panner().dac();
+__().square(16).lowpass({frequency:100,q:30}).panner().dac(0.5);
 
 __().lfo({modulates:"frequency",gain:15,frequency:0.5,type:"sine"}).connect("lowpass");
 
