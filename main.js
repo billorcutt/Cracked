@@ -290,26 +290,25 @@ app.on('ready', function() {
         mainWindow.webContents.executeJavaScript("evalEditor()");
     }
 
+    function toggleTitleTag(tag) {
+        var title = mainWindow.webContents.getTitle();
+        if(title.indexOf(tag)!=-1) {
+            title = title.replace("["+tag+"]", "");
+        } else {
+            title = title + " ["+tag+"]";
+        }
+        mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
+    }
     function toggleReadOnly() {
         mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"readOnly\", !crackedEditor.getOption(\"readOnly\"))");
         var title = mainWindow.webContents.getTitle();
-        if(title.indexOf("Read-Only")!=-1) {
-            title = title.replace(/ \[Read-Only\]/,"");
-        } else {
-            title = title + " [Read-Only]";
-        }
-        mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
+        toggleTitleTag("Read-Only");
     }
 
     function muteWindow() {
         mainWindow.webContents.setAudioMuted(!mainWindow.webContents.isAudioMuted());
         var title = mainWindow.webContents.getTitle();
-        if(title.indexOf("Muted")!=-1) {
-            title = title.replace(/ \[Muted\]/,"");
-        } else {
-            title = title + " [Muted]";
-        }
-        mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
+        toggleTitleTag("Muted");
     }
 
 });
