@@ -93,6 +93,7 @@ app.on('ready', function() {
         label: "Window",
         submenu: [
             { label: "Toggle Audio", accelerator: "CmdOrCtrl+M", click:muteWindow},
+            { label: "Toggle Read-Only", accelerator: "CmdOrCtrl+L", click:toggleReadOnly},
             { label: "Reload Window", accelerator: "CmdOrCtrl+R", click:reloadWindow},
             {
                 label: 'Toggle Developer Tools',
@@ -287,6 +288,17 @@ app.on('ready', function() {
 
     function reloadWindow() {
         mainWindow.webContents.executeJavaScript("evalEditor()");
+    }
+
+    function toggleReadOnly() {
+        mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"readOnly\", !crackedEditor.getOption(\"readOnly\"))");
+        var title = mainWindow.webContents.getTitle();
+        if(title.indexOf("Read-Only")!=-1) {
+            title = title.replace(/ \[Read-Only\]/,"");
+        } else {
+            title = title + " [Read-Only]";
+        }
+        mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
     }
 
     function muteWindow() {
