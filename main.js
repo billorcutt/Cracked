@@ -9,6 +9,8 @@ var dialog = require('dialog');
 var fs = require('fs');
 var wrench = require('wrench');
 var shell = electron.shell;
+var monode = require('monode')();
+global.monome_device = null;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -47,6 +49,25 @@ function closeWindows() {
         app.exit(0);
     }
 }
+
+monode.on('device', function(device) {
+    if(device) {
+        global.monome_device = device;
+        console.log("monome device connected:", device);
+
+        device.rotation = 180;
+
+        //hard code that pressing a button will light it up
+        device.on('key', function(x, y, s) {
+            device.led(x, y, s);
+        });
+    }
+});
+
+monode.on('disconnect', function(device){
+    global.monome_device = null;
+    console.log('A device was disconnected:', device);
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -11,7 +11,8 @@
   "author":"Bill Orcutt <cracked@fastinversesquare.com> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
-    "wrench": "^1.5.8"
+    "wrench": "^1.5.8",
+    "monode":"2.2.3"
   },
   "devDependencies": {
     "electron-packager": "^5.2.1",

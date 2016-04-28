@@ -9,6 +9,41 @@ var dialog = electron.remote.dialog;
 var crackedFile = null;
 const currentWindow = electron.remote.getCurrentWindow();
 
+//monome section
+var monome_device = electron.remote.getGlobal("monome_device") || null;
+var _monome_press_callback = null;
+
+function _monome_init() {
+    monome_device = electron.remote.getGlobal("monome_device");
+}
+
+function _monome_led_on(x,y) {
+    if(monome_device && monome_device.ready) {
+        monome_device.led(x,y,1);
+    }
+}
+
+function _monome_led_off(x,y) {
+    if(monome_device && monome_device.ready) {
+        monome_device.led(x,y,0);
+    }
+}
+
+function _monome_key_press(cb) {
+    if(monome_device && monome_device.ready && typeof cb === "function") {
+        _monome_press_callback = cb;
+    }
+}
+
+//register callback only once
+if(monome_device) {
+    monome_device.on('key', function(x, y, s) {
+        if(monome_device && typeof _monome_press_callback === "function") {
+            _monome_press_callback(x, y, s);
+        }
+    });
+}
+
 //Emitted when the window is closed.
 currentWindow.on('close', function(e) {
     //if the document hasn't been edited
