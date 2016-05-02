@@ -36,7 +36,7 @@ function _monome_key_press(cb) {
 }
 
 //register callback only once
-if(monome_device) {
+if(monome_device && monome_device.ready) {
     monome_device.on('key', function(x, y, s) {
         if(monome_device && typeof _monome_press_callback === "function") {
             _monome_press_callback(x, y, s);

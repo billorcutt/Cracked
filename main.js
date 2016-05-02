@@ -55,12 +55,15 @@ monode.on('device', function(device) {
         global.monome_device = device;
         console.log("monome device connected:", device);
 
+        //tbd-make this configurable
         device.rotation = 180;
 
+        /*
         //hard code that pressing a button will light it up
         device.on('key', function(x, y, s) {
             device.led(x, y, s);
         });
+        */
     }
 });
 
