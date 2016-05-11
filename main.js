@@ -57,13 +57,6 @@ monode.on('device', function(device) {
 
         //tbd-make this configurable
         device.rotation = 180;
-
-        /*
-        //hard code that pressing a button will light it up
-        device.on('key', function(x, y, s) {
-            device.led(x, y, s);
-        });
-        */
     }
 });
 
@@ -233,8 +226,10 @@ app.on('ready', function() {
                 result.push({
                     label:name,
                     click:function(){
-                        mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"theme\", \""+name+"\");");
-                        storage.set("theme",{"name":name});
+                        if(mainWindow && storage) {
+                            mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"theme\", \""+name+"\");");
+                            storage.set("theme",{"name":name});
+                        }
                     }
                 });
             });
@@ -300,7 +295,9 @@ app.on('ready', function() {
     }
 
     function saveFile() {
-        mainWindow.webContents.executeJavaScript("saveFile()");
+        if(mainWindow) {
+            mainWindow.webContents.executeJavaScript("saveFile()");
+        }
     }
 
     function initializeAppFolders() {
@@ -311,7 +308,9 @@ app.on('ready', function() {
     }
 
     function reloadWindow() {
-        mainWindow.webContents.executeJavaScript("evalEditor()");
+        if(mainWindow) {
+            mainWindow.webContents.executeJavaScript("evalEditor()");
+        }
     }
 
     function toggleTitleTag(tag) {
@@ -323,16 +322,21 @@ app.on('ready', function() {
         }
         mainWindow.webContents.executeJavaScript("document.title='"+title+"'");
     }
+
     function toggleReadOnly() {
-        mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"readOnly\", !crackedEditor.getOption(\"readOnly\"))");
-        var title = mainWindow.webContents.getTitle();
-        toggleTitleTag("Read-Only");
+        if(mainWindow) {
+            mainWindow.webContents.executeJavaScript("crackedEditor.setOption(\"readOnly\", !crackedEditor.getOption(\"readOnly\"))");
+            var title = mainWindow.webContents.getTitle();
+            toggleTitleTag("Read-Only");
+        }
     }
 
     function muteWindow() {
-        mainWindow.webContents.setAudioMuted(!mainWindow.webContents.isAudioMuted());
-        var title = mainWindow.webContents.getTitle();
-        toggleTitleTag("Muted");
+        if(mainWindow) {
+            mainWindow.webContents.setAudioMuted(!mainWindow.webContents.isAudioMuted());
+            var title = mainWindow.webContents.getTitle();
+            toggleTitleTag("Muted");
+        }
     }
 
 });
