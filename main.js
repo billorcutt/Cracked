@@ -4,11 +4,10 @@ const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 const storage = require('electron-json-storage');
-var Menu = require("menu");
-var dialog = require('dialog');
-var fs = require('fs');
-var wrench = require('wrench');
-var shell = electron.shell;
+const {Menu} = require('electron');
+const {dialog} = require('electron');
+var fs = require('fs-extra');
+const {shell} = require('electron');
 var monode = require('monode')();
 global.monome_device = null;
 
@@ -141,7 +140,7 @@ app.on('ready', function() {
             {
                 label:'API Docs',
                 click:function(){
-                    shell.openExternal('http://billorcutt.github.io/i_dropped_my_phone_the_screen_cracked/docs/');
+                    shell.openExternal('http://billorcutt.github.io/i_dropped_my_phone_the_screen_cracked/');
                 }
             },
             {
@@ -303,7 +302,7 @@ app.on('ready', function() {
     function initializeAppFolders() {
         var docPath = app.getPath('documents');
         if(docPath) {
-            wrench.copyDirSyncRecursive(__dirname+'/Cracked', docPath+'/Cracked',{forceDelete:false,excludeHiddenUnix:true});
+            fs.copySync(__dirname+'/Cracked', docPath+'/Cracked',{forceDelete:false,excludeHiddenUnix:true});
         }
     }
 
