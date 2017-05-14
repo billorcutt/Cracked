@@ -11,12 +11,12 @@
   "author":"Bill Orcutt <info@fastinversesquare.com> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
-    "fs-extra": "^3.0.1",
+    "wrench": "^1.5.8",
     "monode":"2.2.3"
   },
   "devDependencies": {
-    "electron-packager": "^8.7.0",
-    "electron": "1.4.15",
-    "electron-installer-dmg": "^0.2.1"
+    "electron-packager": "^5.2.1",
+    "electron-prebuilt": "^0.36.7",
+    "electron-installer-dmg": "^0.1.0"
   }
 }

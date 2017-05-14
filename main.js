@@ -4,10 +4,11 @@ const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 const storage = require('electron-json-storage');
-const {Menu} = require('electron');
-const {dialog} = require('electron');
-var fs = require('fs-extra');
-const {shell} = require('electron');
+var Menu = require("menu");
+var dialog = require('dialog');
+var fs = require('fs');
+var wrench = require('wrench');
+var shell = electron.shell;
 var monode = require('monode')();
 global.monome_device = null;
 
@@ -302,7 +303,7 @@ app.on('ready', function() {
     function initializeAppFolders() {
         var docPath = app.getPath('documents');
         if(docPath) {
-            fs.copySync(__dirname+'/Cracked', docPath+'/Cracked',{forceDelete:false,excludeHiddenUnix:true});
+            wrench.copyDirSyncRecursive(__dirname+'/Cracked', docPath+'/Cracked',{forceDelete:false,excludeHiddenUnix:true});
         }
     }
 
