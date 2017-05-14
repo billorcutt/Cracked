@@ -2,7 +2,7 @@
 
 App version of ["I Dropped My Phone The Screen Cracked"](https://github.com/billorcutt/i_dropped_my_phone_the_screen_cracked)
 
-Download the app for [Mac OS](https://github.com/billorcutt/Cracked/releases/download/0.1.1/Cracked.dmg) or
+Download the app for [Mac OS](https://github.com/billorcutt/Cracked/releases/download/0.1.2/Cracked.dmg) or
 [Linux](https://github.com/billorcutt/Cracked/releases/download/0.1.1-Linux/Cracked-linux-x64.tar.gz).
 
 Or build it yourself:
