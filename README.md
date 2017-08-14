@@ -14,10 +14,10 @@ npm install
 ./node_modules/.bin/electron . 
 
 # to package for Mac
-electron-packager . Cracked --platform=darwin --arch=x64 --version=1.7.5 --icon=<path-to>/cracked.icns
+./node_modules/electron-packager/cli.js . Cracked --platform=darwin --arch=x64 --version=1.7.5 --icon=./cracked.icns --overwrite
 
 # to package for Linux
-electron-packager . Cracked --platform=linux --arch=x64 --version=1.7.5 --icon=<path-to>/cracked.icns
+./node_modules/electron-packager/cli.js . Cracked --platform=linux --arch=x64 --version=1.7.5 --icon=<path-to>/cracked.icns --overwrite
 
 # build installer for Mac
 electron-installer-dmg --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/
