@@ -120,6 +120,16 @@ function insertCSS() {
     return result;
 }
 
+//read a directory and return an array of its contents.
+function readDirectory(pathToDirectory) {
+    if(fs.existsSync(pathToDirectory)) {
+        return fs.readdirSync(pathToDirectory);
+    } else {
+        console.error("ls: directory "+pathToDirectory+" does not exist.");
+    }
+}
+
+//try to find a file in the cracked app's search path
 function resolvePath(pathToFile) {
     var path = require('path');
     var docPath = app.getPath("documents");
