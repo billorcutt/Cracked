@@ -2,6 +2,7 @@
 //window code for opening and saving.
 
 var fs = require('fs');
+var path = path || require('path');
 var electron = require('electron');
 var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
 var app = electron.remote.app;
@@ -120,6 +121,26 @@ function insertCSS() {
     return result;
 }
 
+//read a directory and return an array of its contents.
+function readDirectory(pathToDirectory,filelist) {
+    filelist = filelist || [];
+    if(fs.existsSync(pathToDirectory)) {
+        var files = fs.readdirSync(pathToDirectory);
+        files.forEach(function (file) {
+            if (fs.statSync(path.join(pathToDirectory, file)).isDirectory()) {
+                filelist = readDirectory(path.join(pathToDirectory, file), filelist);
+            }
+            else {
+                filelist.push(path.join(pathToDirectory, file));
+            }
+        });
+    } else {
+        console.error("ls: directory "+pathToDirectory+" does not exist.");
+    }
+    return filelist;
+}
+
+//try to find a file in the cracked app's search path
 function resolvePath(pathToFile) {
     var path = require('path');
     var docPath = app.getPath("documents");
