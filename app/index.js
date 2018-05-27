@@ -5,7 +5,6 @@ var fs = require('fs');
 var path = path || require('path');
 var electron = require('electron');
 var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
-var messagebus = electron.remote.getGlobal("messagebus");
 var app = electron.remote.app;
 var dialog = electron.remote.dialog;
 var crackedFile = null;

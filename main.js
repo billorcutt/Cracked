@@ -41,18 +41,6 @@ global.flipShutdownFlag = function () {
     }
 };
 
-global.messagebus = {
-    __subscribers:[],
-    publish:function(msg) {
-        this.__subscribers.forEach(function(el,idx,arr){
-            el(msg);
-        });
-    },
-    subscribe:function(cb) {
-        this.__subscribers.push(cb);
-    }
-};
-
 function closeWindows() {
     if(BrowserWindow.getAllWindows().length) {
         if(BrowserWindow.getAllWindows()[0]) {
