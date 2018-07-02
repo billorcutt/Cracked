@@ -10,6 +10,12 @@ var dialog = electron.remote.dialog;
 var crackedFile = null;
 const currentWindow = electron.remote.getCurrentWindow();
 
+//shared object
+var _shared_object = electron.remote.getGlobal("shared_object");
+
+//window id
+var _windowId = electron.remote.getGlobal("window_id");
+
 //monome section
 var monome_device = electron.remote.getGlobal("monome_device") || null;
 var _monome_press_callback = null;
@@ -192,7 +198,7 @@ function saveFile(callback) {
                 if(!err) {
                     crackedEditor.getDoc().markClean();
                     crackedFile = path;
-                    document.title = (document.title.indexOf("Muted")!=-1) ? path + " [Muted]" : path;
+                    document.title = (document.title.indexOf("Muted")!==-1) ? path + " [Muted]" : path;
                     if(typeof callback === "function") {
                         callback();
                     }

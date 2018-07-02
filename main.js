@@ -12,6 +12,8 @@ var wrench = require('wrench');
 var shell = electron.shell;
 var monode = require('monode')();
 global.monome_device = null;
+global.shared_object = {};
+global.window_id = 0;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -24,7 +26,7 @@ var mainWindow = null,
 app.on('window-all-closed', function() {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform != 'darwin') {
+    if (process.platform !== 'darwin') {
         app.quit();
     }
 });
@@ -116,7 +118,7 @@ app.on('ready', function() {
             {
                 label: 'Toggle Developer Tools',
                 accelerator: (function () {
-                    if (process.platform == 'darwin')
+                    if (process.platform === 'darwin')
                         return 'Alt+Command+I';
                     else
                         return 'Ctrl+Shift+I';
@@ -210,6 +212,7 @@ app.on('ready', function() {
         });
 
         crackedWindows[win.id]=win;
+        global.window_id = win.id;
 
         return win;
     }
@@ -316,7 +319,7 @@ app.on('ready', function() {
 
     function toggleTitleTag(tag) {
         var title = mainWindow.webContents.getTitle();
-        if(title.indexOf(tag)!=-1) {
+        if(title.indexOf(tag)!==-1) {
             title = title.replace("["+tag+"]", "");
         } else {
             title = title + " ["+tag+"]";
