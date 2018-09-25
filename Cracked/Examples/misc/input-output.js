@@ -19,5 +19,5 @@ __().adc(0.25).delay({feedback:0}).out(0.75);
 //sound interface. the argument for multi_out is the index of the channel, starting w zero.
 
 //here's a stereo example, accessing the first & second channels at 0 & 1.
-__().adc().delay({feedback:0}).multi_out(0);
-__().adc().delay({feedback:0}).multi_out(1);
+__().adc().delay({feedback:0}).multi_out(0); //right
+__().adc().delay({feedback:0}).multi_out(1); //left
