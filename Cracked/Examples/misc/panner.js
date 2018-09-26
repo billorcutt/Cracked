@@ -1,3 +1,17 @@
+/**
+ * Panner - simple stereo panner
+ *
+ * @plugin
+ * @category Miscellaneous
+ * @param {Object} [params] map of optional values
+ * @function
+ * @memberof cracked
+ * @name cracked#panner
+ * @public
+ */
+
+//pans left & right. arguments: 1=right, -1=left, 0=both. defaults to 0.
+
 __().saw(100).panner().dac(0.25).play();
 
 setTimeout(function(){

@@ -1,4 +1,28 @@
-//input (adc) and output (dac)* are singletons- 
+/**
+ * adc - system in — input with a master volume
+ * @plugin
+ * @category Miscellaneous
+ * @param {Number} [params=1] system in gain
+ * @function
+ * @memberof cracked
+ * @name cracked#adc
+ * @public
+ */
+
+/**
+ * dac - system out — destination with a master volume. Output is clipped if gain is 1 or less.
+ * @plugin
+ * @category Miscellaneous
+ * @param {Number} [params=1] system out gain
+ * @function
+ * @memberof cracked
+ * @name cracked#dac
+ * @public
+ */
+
+//*adc = analog to digital convertor, dac = digital to analog converter
+
+//input (adc) and output (dac)* are singletons-
 //they can only be created once per script (you 
 //can invoke them multiple times but they will 
 //always point to the same instance). 
@@ -8,16 +32,5 @@
 //the level. (default is 1)
 __().adc(0.25).delay({feedback:0}).dac(0.75);
 
-//*adc = analog to digital convertor, dac = digital to analog converter
-
-
 //there's also "out" object which is an alias for dac if you wanna avoid acronyms.
 __().adc(0.25).delay({feedback:0}).out(0.75);
-
-
-//there's also a multi out object that allows you to address individual outputs in a multichannel
-//sound interface. the argument for multi_out is the index of the channel, starting w zero.
-
-//here's a stereo example, accessing the first & second channels at 0 & 1.
-__().adc().delay({feedback:0}).multi_out(0); //right
-__().adc().delay({feedback:0}).multi_out(1); //left
