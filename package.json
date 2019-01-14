@@ -1,7 +1,7 @@
 {
   "name": "cracked",
   "productName": "Cracked",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "main": "main.js",
   "description": "Web audio, cracked.",
   "keywords": "Web audio, synthesis, sound, music",
