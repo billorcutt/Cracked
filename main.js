@@ -130,7 +130,7 @@ app.on('ready', function() {
             }
         ]}, {
         label: "Themes",
-        submenu: getThemes()
+        submenu: getThemesMenu()
         },{
         label: "Help ",
         submenu: [{
@@ -220,7 +220,8 @@ app.on('ready', function() {
     //start menu
     //get an array of theme css from the theme directory
     //to build the menu
-    function getThemes() {
+    function getThemesMenu() {
+
         var path = app.getAppPath();
         var themes = fs.readdirSync(path+'/lib/editor/theme/');
         var result = [];
@@ -238,7 +239,33 @@ app.on('ready', function() {
                 });
             });
         }
+
+        result.push({ type: "separator" });
+        result.push({
+            label:"Make Text Bigger",
+            click:makeFontBigger,
+            accelerator: 'Command+='
+        });
+        result.push({
+            label:"Make Text Smaller",
+            click:makeFontSmaller,
+            accelerator: "Command+-"
+        });
         return result;
+    }
+
+
+
+    function makeFontBigger() {
+        if(mainWindow) {
+            mainWindow.webContents.executeJavaScript("changeFontSize(1)");
+        }
+    }
+
+    function makeFontSmaller() {
+        if(mainWindow) {
+            mainWindow.webContents.executeJavaScript("changeFontSize(0)");
+        }
     }
 
     //scan the demo folder and create a menu
