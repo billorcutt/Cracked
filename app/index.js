@@ -58,25 +58,26 @@ currentWindow.on('close', function(e) {
         //so go ahead and close
         currentWindow.destroy();
     } else {
-        dialog.showMessageBox({
+
+        var messageResult = dialog.showMessageBoxSync({
             type:"question",
             message:"Do you want to save the changes made to this document?",
             buttons:["Don't Save","Cancel","Save"],
             defaultId:2
-        },function(result) {
-            //save
-            if(result===2) {
-                saveFile(function(){
-                    currentWindow.destroy();
-                });
-             //cancel-do nothing
-            } else if(result===1) {
-            //don't save
-                flipShutdownFlag();
-            } else {
-                currentWindow.destroy();
-            }
         });
+
+        if(messageResult===2) {
+            saveFile(function(){
+                currentWindow.destroy();
+            });
+            //cancel-do nothing
+        } else if(messageResult===1) {
+            //don't save
+            flipShutdownFlag();
+        } else {
+            currentWindow.destroy();
+        }
+
     }
 });
 
@@ -181,11 +182,9 @@ function saveFile(callback) {
     //if not previously saved
     if(!crackedFile) {
         //throw up a dialog
-        dialog.showSaveDialog({title:"Do you want to save the changes made to the document \"Untitled\"?"},function(path){
-            if(path && path.length) {
-                __cb(path);
-            }
-        });
+        __cb(dialog.showSaveDialogSync(
+            {title:"Do you want to save the changes made to the document \"Untitled\"?"},function(path){}
+        ));
     } else {
         //already saved so just save it.
         __cb();

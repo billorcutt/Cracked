@@ -83,14 +83,14 @@ app.on('ready', function() {
         label: "File",
         submenu: [
             { label: "New", accelerator: "CmdOrCtrl+N", click: function() { mainWindow = openCrackedWindow(); } },
-            { label: "Open", accelerator: "CmdOrCtrl+O", click: function() { dialog.showOpenDialog(mainWindow,{
+            { label: "Open", accelerator: "CmdOrCtrl+O", click: function() { openFile(dialog.showOpenDialogSync(mainWindow,{
                 filters: [
                     { name: 'Javascript', extensions: ['js'] }
                 ],
                 title:"Open a file",
                 properties:["multiSelections","openFile"]
 
-            },openFile); } },
+            })) } },
             { label: "Save", accelerator: "CmdOrCtrl+S", click: function() { saveFile(); } },
             { label: "Close", accelerator: "CmdOrCtrl+W", click: function() {
                 if(mainWindow) {
@@ -165,7 +165,7 @@ app.on('ready', function() {
     //it opens a window
     function openCrackedWindow() {
 
-        var options = {width: 800, height: 600, webPreferences:{webSecurity:false}};
+        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true}};
 
         //offset from current window
         if(mainWindow) {
