@@ -8,6 +8,7 @@ var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
 var app = electron.remote.app;
 var dialog = electron.remote.dialog;
 var crackedFile = null;
+var fontSize = 14;
 const currentWindow = electron.remote.getCurrentWindow();
 
 //shared object
@@ -175,6 +176,16 @@ function openFile(path) {
             crackedEditor.getDoc().markClean();
         });
     }
+}
+
+function changeFontSize(size){
+    if(size) {
+        fontSize++
+    } else {
+        fontSize--;
+    }
+    crackedEditor.getWrapperElement().style["font-size"]=fontSize+"px";
+    crackedEditor.refresh();
 }
 
 //save a file
