@@ -10,7 +10,7 @@ Or build it yourself using Node JS v12.13.0
 npm install
 
 # to run---
-./node_modules/.bin/electron . 
+./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js 
 
 # to package for Mac
 ./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite

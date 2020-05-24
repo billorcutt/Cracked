@@ -11,6 +11,8 @@ var fs = require('fs');
 var wrench = require('wrench');
 var shell = electron.shell;
 var monode = require('monode')();
+var draggedFilePath = []; //path of any file that was dragged onto the app icon
+var openFileAlias;
 global.monome_device = null;
 global.shared_object = {};
 global.window_id = 0;
@@ -66,6 +68,15 @@ monode.on('device', function(device) {
 monode.on('disconnect', function(device){
     global.monome_device = null;
     console.log('A device was disconnected:', device);
+});
+
+app.on("open-file", function(event, path) {
+    event.preventDefault();
+    if(!app.isReady()){
+        draggedFilePath.push(path);
+    } else {
+        openFileAlias([path]);
+    }
 });
 
 // This method will be called when Electron has finished
@@ -160,7 +171,13 @@ app.on('ready', function() {
 
     initializeAppFolders();
 
-    mainWindow = openCrackedWindow();
+    //are we opening bc a file was dragged onto the icon?
+    if(!draggedFilePath.length) {
+        mainWindow = openCrackedWindow();
+    } else {
+        openFile(draggedFilePath);
+        draggedFilePath = [];
+    }
 
     //it opens a window
     function openCrackedWindow() {
@@ -324,6 +341,9 @@ app.on('ready', function() {
             }
         }
     }
+
+    //make an alias for the openFile method we can use outside the onReady handler
+    openFileAlias = (function(){return openFile})();
 
     function saveFile() {
         if(mainWindow) {
