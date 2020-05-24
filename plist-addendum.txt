@@ -1,0 +1,16 @@
+    <key>CFBundleDocumentTypes</key>
+      <array>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleTypeName</key>
+          <string>JavaScript</string>
+          <key>CFBundleTypeExtensions</key>
+            <array>
+              <string>js</string>
+              <string>JS</string>
+            </array>
+          <key>CFBundleTypeIconFile</key>
+          <string>JS</string>
+        </dict>
+      </array>
