@@ -9,15 +9,9 @@ Or build it yourself using Node JS v12.13.0
 ```bash
 npm install
 
-# to run---
-./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js 
+npm run start
 
-# to package for Mac
-./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite
+npm run package
 
-# to package for Linux
-./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite
-
-# build installer for Mac
-./node_modules/electron-installer-dmg/bin/electron-installer-dmg.js --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/
+npm run make-installer
 ```
