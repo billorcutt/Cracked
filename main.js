@@ -182,7 +182,7 @@ app.on('ready', function() {
     //it opens a window
     function openCrackedWindow() {
 
-        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true}};
+        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true}};
 
         //offset from current window
         if(mainWindow) {
