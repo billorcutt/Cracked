@@ -132,14 +132,18 @@ function insertCSS() {
 //read a directory and return an array of its contents.
 function readDirectory(pathToDirectory,filelist) {
     filelist = filelist || [];
+    //resolve path to directory
+    pathToDirectory = resolvePath(pathToDirectory);
     if(fs.existsSync(pathToDirectory)) {
         var files = fs.readdirSync(pathToDirectory);
         files.forEach(function (file) {
-            if (fs.statSync(path.join(pathToDirectory, file)).isDirectory()) {
-                filelist = readDirectory(path.join(pathToDirectory, file), filelist);
-            }
-            else {
-                filelist.push(path.join(pathToDirectory, file));
+            if(!/^\./.test(file)) {
+                if (fs.statSync(path.join(pathToDirectory, file)).isDirectory()) {
+                    filelist = readDirectory(path.join(pathToDirectory, file), filelist);
+                }
+                else {
+                    filelist.push(path.join(pathToDirectory, file));
+                }
             }
         });
     } else {
