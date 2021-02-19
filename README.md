@@ -4,7 +4,7 @@ App version of ["I Dropped My Phone The Screen Cracked"](https://github.com/bill
 
 Download the app for Mac & Linux under [releases](https://github.com/billorcutt/Cracked/releases).
 
-Or build it yourself using Node JS v12.13.0
+Or build it yourself using Node JS v12.18.3
 
 ```bash
 npm install
