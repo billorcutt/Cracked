@@ -28,5 +28,18 @@
     "package-all": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --all --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "make-installer": "./node_modules/electron-installer-dmg/bin/electron-installer-dmg.js --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/",
     "build-nosign": "electron-builder build --publish never -c.mac.identity=null"
+  },
+  "build": {
+    "appId": "org.fakeestates.cracked",
+    "mac": {
+      "hardenedRuntime" : true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist"
+    },
+    "dmg": {
+      "sign": false
+    },
+    "afterSign": "scripts/notarize.js"
   }
 }
