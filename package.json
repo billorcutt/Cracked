@@ -34,6 +34,16 @@
   "build": {
     "appId": "org.fakeestates.cracked",
     "mac": {
+      "extendInfo": {
+        "CFBundleDocumentTypes":[{
+            "CFBundleTypeName": "All Files",
+            "LSHandlerRank": "Alternate",
+            "LSItemContentTypes": [
+                "public.data",
+                "public.content"
+            ]
+        }]
+      },
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "build/entitlements.mac.plist",
