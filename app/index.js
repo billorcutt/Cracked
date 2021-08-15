@@ -100,7 +100,7 @@ function loadLibrary() {
 //get an array of plugin js from the plugins directory
 //and insert them into the document
 function loadPlugins() {
-    var path = app.getPath('documents');
+    var path = fs.existsSync(app.getPath('documents') + '/Cracked/Plugins/') ? app.getPath('documents') : app.getAppPath();
     var plugins = fs.readdirSync(path+'/Cracked/Plugins/');
     var result = [];
     if(plugins && plugins.length) {
