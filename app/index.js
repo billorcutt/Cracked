@@ -152,6 +152,7 @@ function readDirectory(pathToDirectory,filelist) {
 function resolvePath(pathToFile) {
     var path = require('path');
     var docPath = app.getPath("documents");
+    var appPath = app.getAppPath();
     var fileDir = crackedFile ? path.resolve(crackedFile,'..') : null;
     var pathToFileNormalized = path.normalize(pathToFile);
     var file = null;
@@ -162,6 +163,8 @@ function resolvePath(pathToFile) {
         file = fileDir+'/'+pathToFileNormalized;
     } else if(fs.existsSync(docPath+'/Cracked/'+pathToFileNormalized)){
         file = docPath+'/Cracked/'+pathToFileNormalized;
+    } else if(fs.existsSync(appPath+'/Cracked/'+pathToFileNormalized)) {
+        file = appPath+'/Cracked/'+pathToFileNormalized;
     }
     return file;
 }

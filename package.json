@@ -11,7 +11,7 @@
   "author": "Bill Orcutt <info@fakeestates.org> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
-    "wrench": "^1.5.8",
+    "fs-extra": "10.0.0",
     "monode": "2.2.3"
   },
   "devDependencies": {
@@ -35,14 +35,16 @@
     "appId": "org.fakeestates.cracked",
     "mac": {
       "extendInfo": {
-        "CFBundleDocumentTypes":[{
+        "CFBundleDocumentTypes": [
+          {
             "CFBundleTypeName": "All Files",
             "LSHandlerRank": "Alternate",
             "LSItemContentTypes": [
-                "public.data",
-                "public.content"
+              "public.data",
+              "public.content"
             ]
-        }]
+          }
+        ]
       },
       "hardenedRuntime": true,
       "gatekeeperAssess": false,

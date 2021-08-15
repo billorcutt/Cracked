@@ -8,7 +8,7 @@ var Menu = electron.Menu;
 var menu = new Menu();
 var dialog = electron.dialog;
 var fs = require('fs');
-var wrench = require('wrench');
+const fsExtra = require('fs-extra');
 var shell = electron.shell;
 var monode = require('monode')();
 var draggedFilePath = []; //path of any file that was dragged onto the app icon
@@ -353,8 +353,12 @@ app.on('ready', function() {
 
     function initializeAppFolders() {
         var docPath = app.getPath('documents');
-        if(docPath) {
-            wrench.copyDirSyncRecursive(__dirname+'/Cracked', docPath+'/Cracked',{forceDelete:false,excludeHiddenUnix:true});
+        try {
+            if(docPath) {
+                fsExtra.copySync(__dirname+'/Cracked', docPath+'/Cracked',{overwrite:false});
+            }
+        } catch(e) {
+            console.log("Couldn't init app folders",e);
         }
     }
 
