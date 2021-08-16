@@ -8,7 +8,6 @@ var Menu = electron.Menu;
 var menu = new Menu();
 var dialog = electron.dialog;
 var fs = require('fs');
-const fsExtra = require('fs-extra');
 var shell = electron.shell;
 var monode = require('monode')();
 var draggedFilePath = []; //path of any file that was dragged onto the app icon
@@ -169,8 +168,6 @@ app.on('ready', function() {
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
-    initializeAppFolders();
-
     //are we opening bc a file was dragged onto the icon?
     if(!draggedFilePath.length) {
         mainWindow = openCrackedWindow();
@@ -182,7 +179,7 @@ app.on('ready', function() {
     //it opens a window
     function openCrackedWindow() {
 
-        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true}};
+        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true, contextIsolation:false}};
 
         //offset from current window
         if(mainWindow) {
@@ -348,17 +345,6 @@ app.on('ready', function() {
     function saveFile() {
         if(mainWindow) {
             mainWindow.webContents.executeJavaScript("saveFile()");
-        }
-    }
-
-    function initializeAppFolders() {
-        var docPath = app.getPath('documents');
-        try {
-            if(docPath) {
-                fsExtra.copySync(__dirname+'/Cracked', docPath+'/Cracked',{overwrite:false});
-            }
-        } catch(e) {
-            console.log("Couldn't init app folders",e);
         }
     }
 

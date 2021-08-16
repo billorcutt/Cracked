@@ -4,14 +4,13 @@
   "version": "0.2.17",
   "main": "main.js",
   "description": "Web audio, cracked.",
-  "keywords": "Web audio, synthesis, sound, music",
+  "keywords": ["Web audio", "synthesis", "sound", "music"],
   "homepage": "https://github.com/billorcutt/Cracked",
   "bugs": "https://github.com/billorcutt/Cracked/issues",
   "license": "MIT",
   "author": "Bill Orcutt <info@fakeestates.org> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
-    "fs-extra": "10.0.0",
     "monode": "2.2.3"
   },
   "devDependencies": {
