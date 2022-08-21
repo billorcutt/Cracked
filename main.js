@@ -268,8 +268,6 @@ app.on('ready', function() {
         return result;
     }
 
-
-
     function makeFontBigger() {
         if(mainWindow) {
             mainWindow.webContents.executeJavaScript("changeFontSize(1)");

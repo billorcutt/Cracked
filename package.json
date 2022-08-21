@@ -16,6 +16,7 @@
   "author": "Bill Orcutt <info@fakeestates.org> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
+    "midi-writer-js": "^2.1.0",
     "monode": "2.2.3"
   },
   "devDependencies": {

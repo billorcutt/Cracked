@@ -4,6 +4,7 @@
 var fs = require('fs');
 var path = path || require('path');
 var electron = require('electron');
+const MidiWriter = require('midi-writer-js');
 var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
 var app = electron.remote.app;
 var dialog = electron.remote.dialog;
@@ -127,6 +128,32 @@ function insertCSS() {
         });
     }
     return result;
+}
+
+//takes an array of notes and writes a midi file
+function writeMidiFile(midiArr,noteLen) {
+
+    // Start with a new track
+    const track = new MidiWriter.Track();
+
+    track.addEvent([
+        new MidiWriter.NoteEvent({pitch: midiArr, duration: noteLen})
+	], function(event, index) {
+        return {sequential: true};
+    });
+
+    // Generate a data URI
+    const write = new MidiWriter.Writer(track);
+
+    fs.writeFile("/Users/billorcutt/Desktop/foo.mid", Buffer.from(write.buildFile()), 'utf8',function(err){
+        if(!err) {
+            console.log("save file");
+        } else {
+            console.error(err)
+        }
+    });
+
+    console.log(write.dataUri());
 }
 
 //read a directory and return an array of its contents.
