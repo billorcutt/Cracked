@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js",
+    "start-linux": "./node_modules/electron/dist/electron --no-sandbox main.js",
     "package": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-mac": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-linux": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite",
