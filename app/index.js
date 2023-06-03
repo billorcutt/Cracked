@@ -131,29 +131,44 @@ function insertCSS() {
 }
 
 //takes an array of notes and writes a midi file
-function writeMidiFile(midiArr,noteLen) {
+function writeMidiFile(midiArr,noteLen,chord) {
 
     // Start with a new track
     const track = new MidiWriter.Track();
 
-    track.addEvent([
-        new MidiWriter.NoteEvent({pitch: midiArr, duration: noteLen})
-	], function(event, index) {
-        return {sequential: true};
-    });
+    if(!chord) {
+
+        track.addEvent([
+            new MidiWriter.NoteEvent({pitch: midiArr, duration: noteLen})
+        ], function(event, index) {
+            return {sequential: true};
+        });
+
+    } else {
+
+        if(noteLen===16) {
+            console.log(midiArr,"here is the midi data")
+        }
+        midiArr.forEach(arr=>{
+            if(noteLen===16) {
+                console.log("arr",arr);
+            }
+            track.addEvent([
+                new MidiWriter.NoteEvent({pitch: arr, duration: noteLen})
+            ]);
+        })
+    }
 
     // Generate a data URI
     const write = new MidiWriter.Writer(track);
 
-    fs.writeFile("/Users/billorcutt/Desktop/foo.mid", Buffer.from(write.buildFile()), 'utf8',function(err){
+    fs.writeFile("/Users/billorcutt/Desktop/midiFile" + Math.floor(Math.random()*1000) + ".mid", Buffer.from(write.buildFile()), 'utf8',function(err){
         if(!err) {
-            console.log("save file");
+            console.log("saved file");
         } else {
             console.error(err)
         }
     });
-
-    console.log(write.dataUri());
 }
 
 //read a directory and return an array of its contents.
