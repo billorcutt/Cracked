@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "electron-packager": "^15.2.0",
-    "electron": "13.6.9",
+    "electron": "18.3.7",
     "electron-installer-dmg": "^3.0.0",
     "electron-notarize": "1.0.0",
     "electron-builder": "23.6.0",
