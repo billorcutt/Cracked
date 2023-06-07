@@ -33,9 +33,11 @@ app.on('window-all-closed', function() {
 });
 
 app.on('before-quit',function(e){
-    e.preventDefault();
-    shuttingDown=true;
-    closeWindows();
+    if(BrowserWindow.getAllWindows().length) {
+        e.preventDefault();
+        shuttingDown=true;
+        closeWindows();
+    }
 });
 
 global.flipShutdownFlag = function () {
@@ -49,8 +51,6 @@ function closeWindows() {
         if(BrowserWindow.getAllWindows()[0]) {
             BrowserWindow.getAllWindows()[0].close();
         }
-    } else {
-        app.exit(0);
     }
 }
 
@@ -179,7 +179,7 @@ app.on('ready', function() {
     //it opens a window
     function openCrackedWindow() {
 
-        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true, contextIsolation:false}};
+        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true, contextIsolation:false, nativeWindowOpen:false}};
 
         //offset from current window
         if(mainWindow) {

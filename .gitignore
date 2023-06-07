@@ -6,8 +6,11 @@ Cracked-darwin-x64/
 
 #app dmg
 Installers/
+dist/
 
 #secrets
 .env
+.DS_Store
 
 node_modules/
+.DS_Store
