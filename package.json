@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "electron-packager": "^15.2.0",
+    "midi-writer-js": "^2.1.4",
     "electron": "11.2.3",
     "electron-installer-dmg": "^3.0.0",
     "electron-notarize": "1.0.0",
