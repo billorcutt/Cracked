@@ -1,7 +1,7 @@
 {
   "name": "cracked",
   "productName": "Cracked",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "main": "main.js",
   "description": "Web audio, cracked.",
   "keywords": [
@@ -21,20 +21,21 @@
   "devDependencies": {
     "electron-packager": "^15.2.0",
     "midi-writer-js": "^2.1.4",
-    "electron": "11.2.3",
+    "electron": "13.6.9",
     "electron-installer-dmg": "^3.0.0",
     "electron-notarize": "1.0.0",
-    "electron-builder": "22.9.1",
-    "dotenv": "8.2.0"
+    "electron-builder": "23.6.0",
+    "dotenv": "8.2.0"   
   },
   "scripts": {
     "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js",
+    "start-linux": "./node_modules/electron/dist/electron --no-sandbox main.js",
     "package": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-mac": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-linux": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite",
     "package-all": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --all --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "make-installer": "./node_modules/electron-installer-dmg/bin/electron-installer-dmg.js --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/",
-    "build-nosign": "electron-builder build --publish never"
+    "build-nosign": "electron-builder build --publish always"
   },
   "build": {
     "appId": "org.fakeestates.cracked",
@@ -57,7 +58,8 @@
       "entitlementsInherit": "build/entitlements.mac.plist"
     },
     "dmg": {
-      "sign": false
+      "sign": true,
+      "writeUpdateInfo": false
     },
     "afterSign": "scripts/notarize.js"
   }
