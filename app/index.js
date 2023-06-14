@@ -11,6 +11,7 @@ var dialog = electron.remote.dialog;
 var crackedFile = null;
 var fontSize = 14;
 const currentWindow = electron.remote.getCurrentWindow();
+var trackArr = []
 
 //shared object
 var _shared_object = electron.remote.getGlobal("shared_object");
@@ -131,44 +132,53 @@ function insertCSS() {
 }
 
 //takes an array of notes and writes a midi file
-function writeMidiFile(midiArr,noteLen,chord) {
-
+function writeMidiFile(midiArr,noteLen,isChord) {
     // Start with a new track
     const track = new MidiWriter.Track();
 
-    if(!chord) {
-
+    if(typeof midiArr[0] === 'string') {
+        midiArr.forEach(arr=>{
+            track.addLyric(arr);
+            track.addEvent([
+                //defaults to snare drum
+                new MidiWriter.NoteEvent({pitch: 38, duration: noteLen})
+            ], function(event, index) {
+                return {sequential: true};
+            });
+        })
+    } else if(!isChord) {
         track.addEvent([
             new MidiWriter.NoteEvent({pitch: midiArr, duration: noteLen})
         ], function(event, index) {
             return {sequential: true};
         });
-
     } else {
-
-        if(noteLen===16) {
-            console.log(midiArr,"here is the midi data")
-        }
         midiArr.forEach(arr=>{
-            if(noteLen===16) {
-                console.log("arr",arr);
-            }
             track.addEvent([
                 new MidiWriter.NoteEvent({pitch: arr, duration: noteLen})
             ]);
         })
     }
+    trackArr.push(track);
+}
 
-    // Generate a data URI
-    const write = new MidiWriter.Writer(track);
+function saveMidiFile() {
+    if(trackArr.length) {
+        // Generate a data URI
+        const write = new MidiWriter.Writer(trackArr);
 
-    fs.writeFile("/Users/billorcutt/Desktop/midiFile" + Math.floor(Math.random()*1000) + ".mid", Buffer.from(write.buildFile()), 'utf8',function(err){
-        if(!err) {
-            console.log("saved file");
-        } else {
-            console.error(err)
-        }
-    });
+        fs.writeFile("/Users/billorcutt/Desktop/midiFile" + Math.floor(Math.random()*1000) + ".mid", Buffer.from(write.buildFile()), 'utf8',function(err){
+            if(!err) {
+                console.log("saved file");
+            } else {
+                console.error(err)
+            }
+        });
+
+        trackArr = [];
+    } else {
+        console.error("No midi files to save");
+    }
 }
 
 //read a directory and return an array of its contents.
