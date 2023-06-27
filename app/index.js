@@ -139,12 +139,6 @@ function writeMidiFile(midiArr,noteLen,isChord) {
     if(typeof midiArr[0] === 'string') {
         midiArr.forEach(arr=>{
             track.addLyric(arr);
-            track.addEvent([
-                //defaults to snare drum
-                new MidiWriter.NoteEvent({pitch: 38, duration: noteLen})
-            ], function(event, index) {
-                return {sequential: true};
-            });
         })
     } else if(!isChord) {
         track.addEvent([
