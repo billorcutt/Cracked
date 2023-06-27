@@ -4,12 +4,14 @@
 var fs = require('fs');
 var path = path || require('path');
 var electron = require('electron');
+const MidiWriter = require('midi-writer-js');
 var flipShutdownFlag = electron.remote.getGlobal("flipShutdownFlag");
 var app = electron.remote.app;
 var dialog = electron.remote.dialog;
 var crackedFile = null;
 var fontSize = 14;
 const currentWindow = electron.remote.getCurrentWindow();
+var trackArr = []
 
 //shared object
 var _shared_object = electron.remote.getGlobal("shared_object");
@@ -127,6 +129,50 @@ function insertCSS() {
         });
     }
     return result;
+}
+
+//takes an array of notes and writes a midi file
+function writeMidiFile(midiArr,noteLen,isChord) {
+    // Start with a new track
+    const track = new MidiWriter.Track();
+
+    if(typeof midiArr[0] === 'string') {
+        midiArr.forEach(arr=>{
+            track.addLyric(arr);
+        })
+    } else if(!isChord) {
+        track.addEvent([
+            new MidiWriter.NoteEvent({pitch: midiArr, duration: noteLen})
+        ], function(event, index) {
+            return {sequential: true};
+        });
+    } else {
+        midiArr.forEach(arr=>{
+            track.addEvent([
+                new MidiWriter.NoteEvent({pitch: arr, duration: noteLen})
+            ]);
+        })
+    }
+    trackArr.push(track);
+}
+
+function saveMidiFile() {
+    if(trackArr.length) {
+        // Generate a data URI
+        const write = new MidiWriter.Writer(trackArr);
+
+        fs.writeFile("/Users/billorcutt/Desktop/midiFile" + Math.floor(Math.random()*1000) + ".mid", Buffer.from(write.buildFile()), 'utf8',function(err){
+            if(!err) {
+                console.log("saved file");
+            } else {
+                console.error(err)
+            }
+        });
+
+        trackArr = [];
+    } else {
+        console.error("No midi files to save");
+    }
 }
 
 //read a directory and return an array of its contents.

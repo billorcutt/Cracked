@@ -1,7 +1,7 @@
 {
   "name": "cracked",
   "productName": "Cracked",
-  "version": "0.2.19",
+  "version": "0.2.20",
   "main": "main.js",
   "description": "Web audio, cracked.",
   "keywords": [
@@ -16,6 +16,7 @@
   "author": "Bill Orcutt <info@fakeestates.org> (https://twitter.com/billorcutt)",
   "dependencies": {
     "electron-json-storage": "1.1.0",
+    "midi-writer-js": "^2.1.4",
     "monode": "2.2.3"
   },
   "devDependencies": {
@@ -24,7 +25,7 @@
     "electron-installer-dmg": "^3.0.0",
     "electron-notarize": "1.0.0",
     "electron-builder": "23.6.0",
-    "dotenv": "8.2.0"   
+    "dotenv": "8.2.0"
   },
   "scripts": {
     "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js",
