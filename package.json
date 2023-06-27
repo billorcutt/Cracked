@@ -20,8 +20,8 @@
     "monode": "2.2.3"
   },
   "devDependencies": {
-    "electron-packager": "^15.2.0",
-    "electron": "13.6.9",
+    "electron-packager": "^17.1.1",
+    "electron": "25.2.0",
     "electron-installer-dmg": "^3.0.0",
     "electron-notarize": "1.0.0",
     "electron-builder": "23.6.0",
