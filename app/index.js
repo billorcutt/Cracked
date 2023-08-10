@@ -138,6 +138,9 @@ function writeMidiFile(midiArr,noteLen,isChord) {
 
     if(typeof midiArr[0] === 'string') {
         midiArr.forEach(arr=>{
+            track.addEvent([
+                new MidiWriter.NoteEvent({pitch: 24, duration: noteLen})
+            ]);
             track.addLyric(arr);
         })
     } else if(!isChord) {
