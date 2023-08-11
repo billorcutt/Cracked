@@ -11,7 +11,8 @@ var dialog = electron.remote.dialog;
 var crackedFile = null;
 var fontSize = 14;
 const currentWindow = electron.remote.getCurrentWindow();
-var trackArr = []
+var trackArr = [];
+const DEFAULT_NOTE_NUMBER = 108;
 
 //shared object
 var _shared_object = electron.remote.getGlobal("shared_object");
@@ -138,10 +139,10 @@ function writeMidiFile(midiArr,noteLen,isChord) {
 
     if(typeof midiArr[0] === 'string') {
         midiArr.forEach(arr=>{
-            track.addEvent([
-                new MidiWriter.NoteEvent({pitch: 24, duration: noteLen})
-            ]);
             track.addLyric(arr);
+            track.addEvent([
+                new MidiWriter.NoteEvent({pitch: DEFAULT_NOTE_NUMBER, duration: noteLen})
+            ]);
         })
     } else if(!isChord) {
         track.addEvent([
