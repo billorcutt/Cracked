@@ -1,7 +1,7 @@
 {
   "name": "cracked",
   "productName": "Cracked",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "main": "main.js",
   "description": "Web audio, cracked.",
   "keywords": [
