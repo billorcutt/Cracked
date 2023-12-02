@@ -32,6 +32,7 @@
     "start-linux": "./node_modules/electron/dist/electron --no-sandbox main.js",
     "package": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-mac": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
+    "package-mac-silicon": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=arm64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "package-linux": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite",
     "package-all": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --all --icon=./cracked.icns --overwrite --extend-info extend.plist",
     "make-installer": "./node_modules/electron-installer-dmg/bin/electron-installer-dmg.js --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/",

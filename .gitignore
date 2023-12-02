@@ -3,6 +3,7 @@
 
 #app
 Cracked-darwin-x64/
+Cracked-darwin-arm64/
 
 #app dmg
 Installers/
@@ -14,3 +15,5 @@ dist/
 
 node_modules/
 .DS_Store
+
+
