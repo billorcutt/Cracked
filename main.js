@@ -4,6 +4,8 @@ const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 const storage = require('electron-json-storage');
+const remoteMain = require('@electron/remote/main');
+remoteMain.initialize();
 var Menu = electron.Menu;
 var menu = new Menu();
 var dialog = electron.dialog;
@@ -176,10 +178,14 @@ app.on('ready', function() {
         draggedFilePath = [];
     }
 
+    if(process.env.CRACKED_SMOKE_TEST === "1" || process.argv.indexOf("--cracked-smoke-test") !== -1) {
+        runSmokeTest();
+    }
+
     //it opens a window
     function openCrackedWindow() {
 
-        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, enableRemoteModule: true, contextIsolation:false, nativeWindowOpen:false}};
+        var options = {width: 800, height: 600, webPreferences:{webSecurity:false, nodeIntegration: true, contextIsolation:false, nativeWindowOpen:false}};
 
         //offset from current window
         if(mainWindow) {
@@ -189,16 +195,21 @@ app.on('ready', function() {
 
         // Create the browser window.
         var win = new BrowserWindow(options);
-
-        //get the current theme
-        storage.get("theme",function(error,data){
-            if(!error && data && data.name) {
-                win.webContents.executeJavaScript("crackedEditor.setOption(\"theme\", \""+data.name+"\");");
-            }
-        });
+        remoteMain.enable(win.webContents);
 
         // and load the index.html of the app.
         win.loadURL('file://' + __dirname + '/index.html');
+
+        // Restore the current theme only after the editor has initialized.
+        win.webContents.once('did-finish-load', function() {
+            storage.get("theme",function(error,data){
+                if(!error && data && data.name) {
+                    win.webContents.executeJavaScript(
+                        "crackedEditor.setOption('theme', "+JSON.stringify(data.name)+");"
+                    );
+                }
+            });
+        });
 
         // Open the DevTools.
         //win.webContents.openDevTools();
@@ -334,7 +345,11 @@ app.on('ready', function() {
         if(path && path.length) {
             for(var i=0;i<path.length;i++) {
                 mainWindow = openCrackedWindow();
-                mainWindow.webContents.executeJavaScript("openFile('"+path[i]+"')");
+                (function(win, filePath) {
+                    win.webContents.once('did-finish-load', function() {
+                        win.webContents.executeJavaScript("openFile("+JSON.stringify(filePath)+")");
+                    });
+                })(mainWindow, path[i]);
             }
         }
     }
@@ -377,6 +392,100 @@ app.on('ready', function() {
             mainWindow.webContents.setAudioMuted(!mainWindow.webContents.isAudioMuted());
             var title = mainWindow.webContents.getTitle();
             toggleTitleTag("Muted");
+        }
+    }
+
+    async function runSmokeTest() {
+        var resultArgument = process.argv.find(function(argument) {
+            return argument.indexOf("--cracked-smoke-result=") === 0;
+        });
+        var resultPath = process.env.CRACKED_SMOKE_RESULT ||
+            (resultArgument ? resultArgument.substring("--cracked-smoke-result=".length) : null);
+        try {
+            await new Promise(function(resolve) {
+                if(mainWindow.webContents.isLoading()) {
+                    mainWindow.webContents.once("did-finish-load", resolve);
+                } else {
+                    resolve();
+                }
+            });
+
+            var editorReady = await mainWindow.webContents.executeJavaScript(
+                "typeof crackedEditor !== 'undefined'"
+            );
+            if(!editorReady) {
+                throw new Error("Editor did not initialize");
+            }
+
+            var applicationMenu = Menu.getApplicationMenu();
+            var themeMenu = applicationMenu.items.find(function(item) {
+                return item.label === "Themes";
+            });
+            var themeItem = themeMenu.submenu.items.find(function(item) {
+                return item.type === "normal" && item.label !== "rubyblue";
+            });
+            themeItem.click(themeItem, mainWindow);
+            var selectedTheme = await mainWindow.webContents.executeJavaScript(
+                "crackedEditor.getOption('theme')"
+            );
+            if(selectedTheme !== themeItem.label) {
+                throw new Error("Theme menu did not update the editor");
+            }
+
+            var oldWindows = BrowserWindow.getAllWindows();
+            var helpMenu = applicationMenu.items.find(function(item) {
+                return item.label.trim() === "Help";
+            });
+            var demosMenu = helpMenu.submenu.items.find(function(item) {
+                return item.label === "Demos";
+            });
+            var demoItem = demosMenu.submenu.items[0];
+            demoItem.click(demoItem, mainWindow);
+
+            var demoWindow;
+            for(var attempt=0;attempt<100;attempt++) {
+                demoWindow = BrowserWindow.getAllWindows().find(function(win) {
+                    return oldWindows.indexOf(win) === -1;
+                });
+                if(demoWindow && !demoWindow.webContents.isLoading()) {
+                    break;
+                }
+                await new Promise(function(resolve) { setTimeout(resolve, 50); });
+            }
+            if(!demoWindow) {
+                throw new Error("Demo menu did not open a window");
+            }
+
+            var demoLoaded = await demoWindow.webContents.executeJavaScript(
+                "crackedEditor.getDoc().getValue().length > 0"
+            );
+            if(!demoLoaded) {
+                throw new Error("Demo source did not load");
+            }
+
+            console.log("CRACKED_SMOKE_TEST_OK", JSON.stringify({
+                editorReady: editorReady,
+                theme: selectedTheme,
+                demo: demoItem.label
+            }));
+            if(resultPath) {
+                fs.writeFileSync(resultPath, JSON.stringify({
+                    ok: true,
+                    editorReady: editorReady,
+                    theme: selectedTheme,
+                    demo: demoItem.label
+                }));
+            }
+            app.exit(0);
+        } catch(error) {
+            console.error("CRACKED_SMOKE_TEST_FAILED", error);
+            if(resultPath) {
+                fs.writeFileSync(resultPath, JSON.stringify({
+                    ok: false,
+                    error: error.stack
+                }));
+            }
+            app.exit(1);
         }
     }
 

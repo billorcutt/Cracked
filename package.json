@@ -15,32 +15,43 @@
   "license": "MIT",
   "author": "Bill Orcutt <info@fakeestates.org> (https://twitter.com/billorcutt)",
   "dependencies": {
-    "electron-json-storage": "1.1.0",
-    "midi-writer-js": "^2.1.4",
+    "@electron/remote": "^2.1.3",
+    "electron-json-storage": "^4.6.0",
+    "midi-writer-js": "^3.2.1",
     "monode": "^3.0.1"
   },
   "devDependencies": {
-    "electron-packager": "^15.2.0",
-    "electron": "13.6.9",
-    "electron-installer-dmg": "^3.0.0",
-    "electron-notarize": "1.0.0",
-    "electron-builder": "23.6.0",
-    "dotenv": "8.2.0"
+    "@electron/packager": "^19.0.1",
+    "electron": "^43.2.0",
+    "electron-builder": "^26.0.12",
+    "@electron/notarize": "^3.1.1",
+    "dotenv": "^17.2.3"
   },
   "scripts": {
-    "start": "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron main.js",
+    "start": "electron .",
+    "test:smoke": "CRACKED_SMOKE_TEST=1 electron .",
     "start-linux": "./node_modules/electron/dist/electron --no-sandbox main.js",
-    "package": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
-    "package-mac": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
-    "package-mac-silicon": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=darwin --arch=arm64 --icon=./cracked.icns --overwrite --extend-info extend.plist",
-    "package-linux": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite",
-    "package-all": "./node_modules/electron-packager/bin/electron-packager.js . Cracked --all --icon=./cracked.icns --overwrite --extend-info extend.plist",
-    "make-installer": "./node_modules/electron-installer-dmg/bin/electron-installer-dmg.js --overwrite Cracked-darwin-x64/Cracked.app Cracked --out=Installers/",
-    "build-nosign": "electron-builder build --publish always"
+    "package": "npm run package-mac-silicon",
+    "package-mac": "electron-packager . Cracked --platform=darwin --arch=arm64 --icon=./cracked.icns --overwrite --extend-info extend.plist --app-bundle-id=org.fakeestates.cracked --helper-bundle-id=org.fakeestates.cracked.helper && xattr -cr Cracked-darwin-arm64/Cracked.app && codesign --force --deep --sign - Cracked-darwin-arm64/Cracked.app",
+    "package-mac-silicon": "npm run package-mac",
+    "package-mac-intel": "electron-packager . Cracked --platform=darwin --arch=x64 --icon=./cracked.icns --overwrite --extend-info extend.plist --app-bundle-id=org.fakeestates.cracked --helper-bundle-id=org.fakeestates.cracked.helper",
+    "package-linux": "electron-packager . Cracked --platform=linux --arch=x64 --icon=./cracked.icns --overwrite",
+    "package-all": "electron-packager . Cracked --all --icon=./cracked.icns --overwrite --extend-info extend.plist",
+    "make-installer": "scripts/make-dmg.sh",
+    "build-mac-silicon": "electron-builder --mac --arm64 --publish never",
+    "build-nosign": "electron-builder --mac --arm64 --publish never -c.mac.identity=null"
   },
   "build": {
     "appId": "org.fakeestates.cracked",
     "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
       "extendInfo": {
         "CFBundleDocumentTypes": [
           {
